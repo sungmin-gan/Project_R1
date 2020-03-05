@@ -1,0 +1,22 @@
+<h1><%= @user.first_name%>'s Photos</h1>
+<table border="2px black solid">
+  <tr>
+    <th>Photo ID</th>
+    <th>Photo</th>
+    <th>Created:</th>
+    <th>Comments</th>
+    <th>Commented By:</th>
+  </tr>
+  <%= @user_photos.all.each do |photo| %>
+    <tr>
+      <td><%=photo.id%></td>
+      <td><%= image_tag(photo.file_name)%></td>
+      <td><%=photo.created_at%></td>
+      <td><%=Comment.find(photo.id).comment_text%></td>
+      <%= comment_user = User.find(Comment.find(photo.id).user_id) %>
+      <%= comment_user_link = "/photo/index/" + comment_user.id.to_s %>
+      <td><%= link_to(comment_user.first_name, comment_user_link)%>
+        <%= link_to(comment_user.last_name, comment_user_link)%></td>
+    </tr>
+  <%end%>
+</table>
